@@ -33,38 +33,4 @@ WsStaticServer.prototype.close = function() {
     this.server.close();
 }
 
-
-
-/*
- * ServerSocket sends http traffic to a pipeline
- */
-function ServerSocket(options) {
-    this.servePath = node.servePath;
-    this.port = node.port;
-    this.wsPath = node.wsPath;
-    this.node = node;
-    this.listen();
-}
-
-/*
- * Start the http server and create the node pipeline.
- */
-ServerSocket.prototype.listen = function() {
-    this.wsStaticServer = new WsStaticServer(this.node);
-
-    var self = this;
-
-    this.wsStaticServer.listen(function(wss) {
-
-        wss.on('connection', function(ws) {
-            self.stream = websocket(ws);
-        })
-    })
-}
-
-ServerSocket.prototype.end = function() {
-    this.wsStaticServer.close();
-}
-
 exports.WsStaticServer = WsStaticServer;
-exports.ServerSocket   = ServerSocket;
