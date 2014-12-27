@@ -13,12 +13,11 @@ var websocket       = require('websocket-stream');
 function WsStaticServer(options) {
     this.path = options.path;
     this.wsPath = options.wsPath;
+    this.app = express();
+    this.app.use(express.static(this.path));
 }
 
 WsStaticServer.prototype.listen = function(port, onListen) {
-
-    this.app = express();
-    this.app.use(express.static(this.path));
     this.server = http.createServer(this.app);
 
     var self = this;
