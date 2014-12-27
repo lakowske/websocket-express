@@ -23,7 +23,9 @@ WsStaticServer.prototype.listen = function(port, onListen) {
     var self = this;
     this.server.listen(port, function() {
         self.wss = new WebSocketServer({server : self.server, path:self.wsPath});
-        onListen(self.wss);
+        if (onListen) {
+            onListen(self.wss);
+        }
     })
 }
 
